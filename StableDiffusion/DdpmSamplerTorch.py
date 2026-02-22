@@ -26,6 +26,7 @@ class DdpmSamplerTorch:
         self.trainingTimeSteps = torch.from_numpy(np.arange(self.numTrainingSteps)[::-1].copy())
         self.trainingTimeSteps =self.trainingTimeSteps.to(torch.int64)
         self.inferenceTimeSteps = torch.from_numpy(np.arange(self.numInferenceSteps)[::-1].copy()*self.deltaSteps)
+        self.fullInferenceTimeSteps = self.inferenceTimeSteps.clone()
         self.inferenceTimeSteps =self.inferenceTimeSteps.to(torch.int64)
         
     def to(self,device):
@@ -49,7 +50,7 @@ class DdpmSamplerTorch:
         output = torch.from_numpy(input.astype(np.float32)).to(device)
         return output
     
-    def getInferenceTimeSteps(self):
+    def getInferenceTimeSteps(self)->torch.Tensor:
         inferTimeSteps = self.inferenceTimeSteps
         return inferTimeSteps
 
@@ -73,10 +74,10 @@ class DdpmSamplerTorch:
     def setAddNoiseStrength(self,noiseStrength=1.0):
         startStep = int(self.numInferenceSteps*(1-noiseStrength))
         print(f'in ddpm start step is {startStep}')
-        self.inferenceTimeSteps = self.inferenceTimeSteps[startStep:]
+        self.inferenceTimeSteps = self.fullInferenceTimeSteps[startStep:]
         
     
-    def removeNoiseFromLatent(self,latentInputs,estimateNoise,timeStep):
+    def removeNoiseFromLatent(self,latentInputs:torch.Tensor,estimateNoise:torch.Tensor,timeStep:int):
         xt = latentInputs
         device = latentInputs.device
         epsilonT = estimateNoise
@@ -101,7 +102,7 @@ class DdpmSamplerTorch:
         #x0EstImage = (xt-torch.sqrt(1-alphaBarT)*epsilonT)/torch.sqrt(alphaBarT) 
         x0EstImage =(xt-sqrtOneMinusAlphaBarT * epsilonT)/sqrtAlphaBarT
         #  compute x0 estimate 
-        #x0EstImage =  x0EstImage.clamp(min=-1,max=1)
+        x0EstImage =  x0EstImage.clamp(min=-1,max=1)
         #x0EstCoeff =  torch.sqrt(alphaBarTPre) * betaT /(1-alphaBarT)
         x0EstCoeff =  torch.sqrt(alphaBarTPre) * betaTEffective /betaBarT
         xTCoeff  =  torch.sqrt(alphaBarTEffective)*betaBarTPre/betaBarT
@@ -125,9 +126,12 @@ class DdpmSamplerTorch:
         x0 = latentInputs
         #B,C,H,W = x0.shape
         t = timeStep
-        x0Coeff = self.alphasBar[t]**0.5
-        epsilonCoeff = (1- self.alphasBar[t])**0.5
-        xt = x0Coeff * x0 + epsilonCoeff * torch.randn(*x0.shape,generator = self.randomGenerator,dtype=torch.float32,device=x0.device)
+        #x0Coeff = self.alphasBar[t]**0.5
+        x0Coeff = self.sqrtAlphasBar[t]
+        #epsilonCoeff = (1- self.alphasBar[t])**0.5
+        epsilonCoeff = self.sqrtOneMinusAlphasBar[t]
+        noise =torch.randn(*x0.shape,generator = self.randomGenerator,dtype=torch.float32,device=x0.device)
+        xt = x0Coeff * x0 + epsilonCoeff * noise
         return xt
         
         
