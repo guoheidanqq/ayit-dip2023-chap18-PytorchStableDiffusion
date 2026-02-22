@@ -94,8 +94,8 @@ class DdpmSamplerTorch:
         else:
             alphaBarTPre = self.alphasBar[tPre].to(device)
         betaBarTPre =1.0 -alphaBarTPre
-        alphaTEffective = alphaBarT/alphaBarTPre
-        betaTEffective = 1.0- alphaBarT/alphaBarTPre
+        alphaBarTEffective = alphaBarT/alphaBarTPre
+        betaTEffective = 1.0- alphaBarTEffective
             
         
         #x0EstImage = (xt-torch.sqrt(1-alphaBarT)*epsilonT)/torch.sqrt(alphaBarT) 
@@ -104,7 +104,7 @@ class DdpmSamplerTorch:
         #x0EstImage =  x0EstImage.clamp(min=-1,max=1)
         #x0EstCoeff =  torch.sqrt(alphaBarTPre) * betaT /(1-alphaBarT)
         x0EstCoeff =  torch.sqrt(alphaBarTPre) * betaTEffective /betaBarT
-        xTCoeff  =  torch.sqrt(alphaTEffective)*betaBarTPre/betaBarT
+        xTCoeff  =  torch.sqrt(alphaBarTEffective)*betaBarTPre/betaBarT
         meanT = x0EstCoeff * x0EstImage + xTCoeff * xt
         noise = torch.randn(*meanT.shape,generator = self.randomGenerator,dtype=torch.float32,device=device)
         varianceT = 0 
@@ -114,7 +114,7 @@ class DdpmSamplerTorch:
             varianceT = torch.tensor(0.0).to(device)       
         
         stdVarianceT = torch.sqrt(varianceT).to(device)
-        xTPre =  meanT + stdVarianceT* noise 
+        xTPre =  meanT + stdVarianceT * noise 
         return xTPre
     
     
