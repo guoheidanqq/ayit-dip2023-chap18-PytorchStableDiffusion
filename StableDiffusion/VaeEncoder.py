@@ -170,7 +170,9 @@ class VaeEncoder(nn.Sequential):
         #print(f'variance shape {varianceClamp.shape}')      
         
         latentImageNoised =  mean + stdVarianceClamp * noise 
-        latentImageNoised = latentImageNoised * 0.18125
+        #latentImageNoised = latentImageNoised * 0.18125
+        latentImageNoised = latentImageNoised * 0.18215
+        #modify 0.18125->0.18215
         #encoder output B 4,64,64
                
         return latentImageNoised

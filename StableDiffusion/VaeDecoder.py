@@ -84,7 +84,9 @@ class VaeDecoder(nn.Sequential):
     def forward(self,inputs):
         # inputs: B 4 64 64
         x = inputs 
-        x = x /0.18125
+        #x = x /0.18125
+        x = x /0.18215
+        #modify scale factor from 0.18125 to 0.18215   20260222
         for name,layer in self._modules.items():
             x = layer(x)
             #print(name,layer,x.shape)
