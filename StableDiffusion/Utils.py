@@ -36,6 +36,7 @@ class Utils:
         decoderTest = decoderImg[0,:,:,:].transpose(1,2,0)
         decoderTest =Utils.rescaleImageRange(decoderTest,[-1,1],[0,1],True)
         decoderImg = (decoderImg[0].transpose(1,2,0)+1)/2
+        decoderImg = decoderImg.clip(0,1)
         plt.imshow(decoderImg)
         plt.show()
         
@@ -57,11 +58,12 @@ class Utils:
         plt.show()     
         return imgBatch   
     
-    def getPromptTokens(prompt:str,device='cuda')->torch.LongTensor:
+    def getPromptTokens(prompt:str,device='cuda')->Tuple[torch.LongTensor,torch.LongTensor]:
         promptTokenizer = CLIPTokenizer(vocab_file='../models/sd15models/vocab.json',
                                         merges_file='../models/sd15models/merges.txt')
         promptTokens = promptTokenizer(prompt,padding='max_length',max_length=77,truncation=True,return_tensors='pt')['input_ids'].to(device)
-        return promptTokens
+        attentionMask = promptTokenizer(prompt,padding='max_length',max_length=77,truncation=True,return_tensors='pt')['attention_mask'].to(device)
+        return promptTokens,attentionMask
             
             
     

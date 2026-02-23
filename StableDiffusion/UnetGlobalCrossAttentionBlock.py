@@ -21,7 +21,9 @@ class UnetGlobalCrossAttentionBlock(nn.Module):
         
         self.layernorm_1 =  nn.LayerNorm(self.latentEmbeddingDimension)
         #diffusion_model.input_blocks.1.1.transformer_blocks.0.norm1
-        self.attention_1 = MHSelfAttention(numHeads=self.numHeads,embeddingDimensions=self.latentEmbeddingDimension,isInProjBias=False,isOutProjBias=True)
+        self.attention_1 = MHSelfAttention(numHeads=self.numHeads,embeddingDimensions=self.latentEmbeddingDimension,
+                                           isCausalMask = False,isInProjBias=False,isOutProjBias=True)
+        # add isCausalMask = False  20260223  all the error is caused by this casualMask,and attentionMask
         
         self.layernorm_2 = nn.LayerNorm(self.latentEmbeddingDimension)
         #diffusion_model.input_blocks.1.1.transformer_blocks.0.norm2
@@ -57,7 +59,7 @@ class UnetGlobalCrossAttentionBlock(nn.Module):
         
         residualSelfAttention = latentX 
         latentX = self.layernorm_1(latentX)
-        latentX = self.attention_1(latentX)
+        latentX = self.attention_1(latentX,isCausalMask=False,attentionMask=None)
         latentX = residualSelfAttention + latentX
         
         residualCrossAttention = latentX  
