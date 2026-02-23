@@ -39,19 +39,21 @@ class UnetGlobalCrossAttentionBlock(nn.Module):
     
     def forward(self,latentInput,contextInput):
         latentX = latentInput   #  B C H W 
-        B,C,H,W = latentX.shape
+        BatchLatent,C,H,W = latentX.shape
         contextY = contextInput  # B N D
-        B,N,D = contextY.shape
+        BatchContext,N,D = contextY.shape
+        
         
         residual = latentX 
         
         latentX = self.groupnorm(latentX)   
         latentX = self.conv_input(latentX)  # B C H W 
         
-        
-        latentX = latentX.reshape(B,C,H*W)   # B C H*W 
+        #print(f'unet global cross attention block foward pass {latentX.shape} {contextInput.shape}')
+        latentX = latentX.reshape(BatchLatent,C,H*W)   # B C H*W 
         #print(f'unet global cross attention block foward pass her{latentX.shape}')
         latentX = latentX.permute(0,2,1)  # B H*W C
+        #latentX = latentX.view(B, C, H * W).permute(0, 2, 1).contiguous()
         
         residualSelfAttention = latentX 
         latentX = self.layernorm_1(latentX)
@@ -72,7 +74,8 @@ class UnetGlobalCrossAttentionBlock(nn.Module):
         latentX = latentX + residualGeGlu
         
         latentX = latentX.permute(0,2,1)
-        latentX = latentX.reshape(B,C,H,W)
+        latentX = latentX.reshape(BatchLatent,C,H,W)
+        #latentX = latentX.permute(0, 2, 1).contiguous().view(B, C, H, W)
         
         latentX = self.conv_output(latentX)
         latentX = latentX+ residual

@@ -94,18 +94,22 @@ class MHCrossAttention(nn.Module):
     def forward(self,inputLatent,inputContext):
         x = inputLatent  # B 4096 1280
         y = inputContext  # B 77 768
-        B,latentN,latentD = inputLatent.shape 
-        B,contextN,contextD = inputContext.shape 
+        BatchLatent,latentN,latentD = inputLatent.shape 
+        BatchContext,contextN,contextD = inputContext.shape 
+        #remove for gen more than 1 images
+        if BatchContext == 1 and BatchLatent > 1:
+            y = y.expand(BatchLatent,contextN,contextD)
+            
         
         q = self.q_proj(x) # B 4096 1280
         k = self.k_proj(y)  # B 77 1280
         v = self.v_proj(y) # B 77 1280
         
-        q = q.reshape(B,latentN,self.numHeads,self.headDimension) # B 4096 8 160
+        q = q.reshape(BatchLatent,latentN,self.numHeads,self.headDimension) # B 4096 8 160
         q = q.permute(0,2,1,3)  # B 8 4096 160
-        k = k.reshape(B,contextN,self.numHeads,self.headDimension)  
+        k = k.reshape(BatchLatent,contextN,self.numHeads,self.headDimension)  
         k = k.permute(0,2,1,3) # B 8 77  160
-        v = v.reshape(B,contextN,self.numHeads,self.headDimension)  
+        v = v.reshape(BatchLatent,contextN,self.numHeads,self.headDimension)  
         v = v.permute(0,2,1,3)# B 8 77  160
         #print(f'q shape{q.shape} , k shape {k.shape},  v shape {v.shape}')
         
@@ -115,7 +119,7 @@ class MHCrossAttention(nn.Module):
         
         out = attentionWeight @ v  # B 8 4096 160
         out = out.permute(0,2,1,3)
-        out = out.reshape(B,latentN,-1)
+        out = out.reshape(BatchLatent,latentN,-1)
         out = self.out_proj(out)       
         
         x = out
