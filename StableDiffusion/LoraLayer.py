@@ -18,13 +18,13 @@ class LoraLayer(nn.Module):
         nn.init.kaiming_normal_(self.loraA,a=5.0**0.5)
     
     
-    def forward(self,inputs):
+    def forward(self,inputs:torch.Tensor)->torch.Tensor:
         x = inputs 
-        residual = self.originLinear(x)
+        mainPart = self.originLinear(x)
         x = x@self.loraA
         x = x @ self.loraB
         x = self.scale * x        
-        x = x + residual    
+        x = x + mainPart    
         return x
         
         
