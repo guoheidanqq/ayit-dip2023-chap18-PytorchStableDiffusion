@@ -41,7 +41,7 @@ class Utils:
         plt.show()
         
     @staticmethod
-    def loadImageBatch(filePath:str)->torch.Tensor:
+    def loadImageBatch(filePath:str,device='cuda')->torch.Tensor:
 
         img1 = cv2.imread(filePath)
         img1 = cv2.cvtColor(img1, cv2.COLOR_BGR2RGB)
@@ -56,7 +56,7 @@ class Utils:
         print(imgBatch.shape)
         plt.imshow(img1)
         plt.show()     
-        return imgBatch   
+        return imgBatch.to(device)   
     
     def getPromptTokens(prompt:str,device='cuda')->Tuple[torch.LongTensor,torch.LongTensor]:
         promptTokenizer = CLIPTokenizer(vocab_file='../models/sd15models/vocab.json',
