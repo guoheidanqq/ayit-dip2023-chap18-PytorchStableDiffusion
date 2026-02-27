@@ -21,8 +21,8 @@ class LoraLayer(nn.Module):
     def forward(self,inputs:torch.Tensor)->torch.Tensor:
         x = inputs 
         mainPart = self.originLinear(x)
-        x = x@self.loraA
-        x = x @ self.loraB
+        x = x@self.loraA(x)
+        x = x @ self.loraB(x)
         x = self.scale * x        
         x = x + mainPart    
         return x
