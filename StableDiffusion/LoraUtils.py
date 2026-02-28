@@ -19,8 +19,9 @@ def injectLora(model:nn.Module,rank:int =8,alpha:int = 16,filterTuple:Tuple[str,
                 parent = model.get_submodule(preName)    
             injectedLoraLayer = LoraLayer(layer,rank =rank,alpha=alpha,device=device)
             setattr(parent,layerName,injectedLoraLayer)
-    for name,params in model.named_parameters():
-        print(f' {name} {params.size()}')
+    checkModuleStatus(model,isShowAll=False)
+    #for name,params in model.named_parameters():
+    #    print(f' {name} {params.size()}')
 
 
 def freezeModelWeights(moduel:nn.Module)->None:
@@ -31,18 +32,27 @@ def freezeModelWeights(moduel:nn.Module)->None:
             param.requires_grad = False
     
 
-def checkModuleStatus(model: nn.Module) -> None:
+def checkModuleStatus(model: nn.Module,isShowAll:bool =True) -> None:
     print(f"{'Parameter Name':<60} | {'Status':<10} | {'Shape'}")
     print("-" * 85)
     
     for name, param in model.named_parameters():
         status = "✅ TRAIN" if param.requires_grad else "❄️ FROZEN"
-        print(f"{name:<60} | {status:<10} | {list(param.shape)}")
+        if isShowAll == True: 
+            print(f"{name:<60} | {status:<10} | {list(param.shape)}")
+        if isShowAll == False:
+            if param.requires_grad:                
+                print(f"{name:<60} | {status:<10} | {list(param.shape)}")
+
+        
+
+
+
 
 def writeLoraToFile(model:nn.Module)->None:
     import os    
-    for name,param in model.named_parameters():
-        print(name,param.shape)
+    #for name,param in model.named_parameters():
+    #    print(name,param.shape)
     loraDict={}
     for name,param in model.named_parameters():
         if 'loraA' in name or 'loraB' in name:
@@ -59,5 +69,14 @@ def loadLoraFromFile(model:nn.Module)->None:
     loraDict =torch.load('./lora.ckpt')
     model.load_state_dict(loraDict,strict=False)
     print(f"{'*'*30}lora loaded")    
+
+
+
+def checkModelMemory(model, name):
+    # Calculate bytes (params * size of float32/4 bytes)
+    param_size = sum(p.numel() * p.element_size() for p in model.parameters())
+    buffer_size = sum(b.numel() * b.element_size() for b in model.buffers())
+    total_size_mb = (param_size + buffer_size) / (1024**2)
+    print(f"Model: {name:18} | Memory: {total_size_mb:.2f} MB")
 
 
