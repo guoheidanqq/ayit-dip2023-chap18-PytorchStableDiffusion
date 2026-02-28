@@ -133,6 +133,18 @@ class DdpmSamplerTorch:
         noise =torch.randn(*x0.shape,generator = self.randomGenerator,dtype=torch.float32,device=x0.device)
         xt = x0Coeff * x0 + epsilonCoeff * noise
         return xt
+    
+    def addNoiseBatchTrain(self,latentInputs:torch.Tensor,noise:torch.Tensor,timeStep:int):
+        x0 = latentInputs
+        B,C,H,W = x0.shape
+        t = timeStep
+        #x0Coeff = self.alphasBar[t]**0.5
+        x0Coeff = self.sqrtAlphasBar[t].reshape(B,1,1,1)
+        #epsilonCoeff = (1- self.alphasBar[t])**0.5
+        epsilonCoeff = self.sqrtOneMinusAlphasBar[t].reshape(B,1,1,1)
+        #noise =torch.randn(*x0.shape,generator = self.randomGenerator,dtype=torch.float32,device=x0.device)
+        xt = x0Coeff * x0 + epsilonCoeff * noise
+        return xt
         
         
         
