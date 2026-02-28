@@ -6,6 +6,11 @@ import matplotlib.pyplot as plt
 from torchvision import transforms
 from typing import Tuple,Union
 from transformers import CLIPTokenizer
+from .ModelConverter import *
+from .VaeDecoder import VaeDecoder
+from .VaeEncoder import VaeEncoder
+from .ClipEncoder import ClipEncoder
+from .DiffusionProcess import DiffusionProcess
 class Utils:
     
     @staticmethod
@@ -19,6 +24,21 @@ class Utils:
         timeEmbeddingSin = np.sin(xk)
         timeEmbedding = np.concatenate([timeEmbeddingCos,timeEmbeddingSin])
         timeEmbedding = timeEmbedding[None,:]   
+        return timeEmbedding
+    
+    @staticmethod
+    def getTimeEmbeddingBatch(timeStep:torch.Tensor)->np.ndarray:   
+        t = timeStep.cpu().numpy()
+        t = t[:,None]
+        #print(t.shape)
+        frequency = np.arange(0,160.0) 
+        frequency = -frequency/160.0
+        frequency = 10000**frequency    
+        xk = t *frequency 
+        #print(xk.shape)
+        timeEmbeddingCos = np.cos(xk)
+        timeEmbeddingSin = np.sin(xk)
+        timeEmbedding = np.concatenate([timeEmbeddingCos,timeEmbeddingSin],axis=1)
         return timeEmbedding
     
     @staticmethod
@@ -65,7 +85,29 @@ class Utils:
         attentionMask = promptTokenizer(prompt,padding='max_length',max_length=77,truncation=True,return_tensors='pt')['attention_mask'].to(device)
         return promptTokens,attentionMask
             
-            
+    @staticmethod
+    def loadModel():
+        device = 'cuda'
+        idleDevice = 'cpu'
+        #diffusionDict = StableDiffusion.ModelConverter.load_from_standard_weights(input_file='./models/inkpunk-diffusion-v1.ckpt',\
+        #                                                            device = 'cuda')
+        diffusionDict = load_from_standard_weights(input_file='../models/sd15models/v1-5-pruned-emaonly.ckpt',\
+                                                                    device = 'cuda')
+        clipWeights=diffusionDict['clip']
+        diffusionWeights = diffusionDict['diffusion']
+        vaeEncoderWeights = diffusionDict['encoder']
+        vaeDecoderWeights = diffusionDict['decoder']
+        clipEncoder = ClipEncoder().to(device)
+        vaeEncoder = VaeEncoder().to(device)
+        vaeDecoder = VaeDecoder().to(device)
+        diffusionProcess = DiffusionProcess().to(device)
+        clipEncoder.load_state_dict(clipWeights,strict=True)
+        vaeEncoder.load_state_dict(vaeEncoderWeights ,strict=True)
+        vaeDecoder.load_state_dict(vaeDecoderWeights,strict=True)
+        diffusionProcess.load_state_dict(diffusionWeights,strict=True)
+        clipName = clipEncoder.__class__.__name__
+        print(clipName)
+        return vaeEncoder,vaeDecoder,clipEncoder,diffusionProcess            
     
     
     

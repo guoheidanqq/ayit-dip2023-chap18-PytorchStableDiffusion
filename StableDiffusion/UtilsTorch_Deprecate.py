@@ -44,5 +44,8 @@ class UtilsTorch:
         imgBatch = imgTensor[None, :, :, :]
         print(imgBatch.shape)
         plt.imshow(img1)
-        plt.show()        
+        plt.show()     
+    
+    
+       
                 
