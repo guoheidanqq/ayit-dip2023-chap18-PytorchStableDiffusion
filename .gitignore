@@ -6,3 +6,4 @@ __pycache__/
 
 # 忽略 Jupyter 临时文件
 .ipynb_checkpoints/
+wandb/

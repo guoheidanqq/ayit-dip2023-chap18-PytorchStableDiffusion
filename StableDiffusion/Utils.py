@@ -59,6 +59,19 @@ class Utils:
         decoderImg = decoderImg.clip(0,1)
         plt.imshow(decoderImg)
         plt.show()
+    
+    
+    @staticmethod
+    def getBatchImage(inputImageBatch:torch.tensor):
+        decoderImg = inputImageBatch
+        decoderImg = decoderImg.detach().cpu().numpy()
+        decoderTest = decoderImg[0,:,:,:].transpose(1,2,0)
+        decoderTest =Utils.rescaleImageRange(decoderTest,[-1,1],[0,1],True)
+        decoderImg = (decoderImg[0].transpose(1,2,0)+1)/2
+        decoderImg = decoderImg.clip(0,1)
+        #plt.imshow(decoderImg)
+        #plt.show()
+        return decoderImg
         
     @staticmethod
     def loadImageBatch(filePath:str,device='cuda')->torch.Tensor:
