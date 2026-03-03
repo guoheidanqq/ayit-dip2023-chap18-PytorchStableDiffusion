@@ -5,6 +5,7 @@ def ControlnetModelConverter(filePath:str)->dict[str,torch.Tensor]:
     #for key,value in controlDict.items():
     #    print(key,value.shape)    
     ctl = {}
+    tmb ={}
     ctl['cannyToLatent.0.weight'] = controlDict['control_model.input_hint_block.0.weight']
     ctl['cannyToLatent.0.bias'] = controlDict['control_model.input_hint_block.0.bias']
     ctl['cannyToLatent.2.weight'] = controlDict['control_model.input_hint_block.2.weight']
@@ -21,7 +22,11 @@ def ControlnetModelConverter(filePath:str)->dict[str,torch.Tensor]:
     ctl['cannyToLatent.12.bias'] = controlDict['control_model.input_hint_block.12.bias']
     ctl['cannyToLatent.14.zeroConv.weight'] = controlDict['control_model.input_hint_block.14.weight']
     ctl['cannyToLatent.14.zeroConv.bias'] = controlDict['control_model.input_hint_block.14.bias']
-    return ctl
+    tmb['linear_1.weight']=controlDict['control_model.time_embed.0.weight']
+    tmb['linear_1.bias']=controlDict['control_model.time_embed.0.bias']
+    tmb['linear_2.weight']=controlDict['control_model.time_embed.2.weight']
+    tmb['linear_2.bias']=controlDict['control_model.time_embed.2.bias']
+    return ctl,tmb
     
     '''
 control_model.input_hint_block.0.weight torch.Size([16, 3, 3, 3])
@@ -40,7 +45,11 @@ control_model.input_hint_block.12.weight torch.Size([256, 96, 3, 3])
 control_model.input_hint_block.12.bias torch.Size([256])
 control_model.input_hint_block.14.weight torch.Size([320, 256, 3, 3])
 control_model.input_hint_block.14.bias torch.Size([320])
-    
+
+control_model.time_embed.0.weight torch.Size([1280, 320])
+control_model.time_embed.0.bias torch.Size([1280])
+control_model.time_embed.2.weight torch.Size([1280, 1280])
+control_model.time_embed.2.bias torch.Size([1280])    
     '''
     
     
