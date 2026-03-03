@@ -25,6 +25,19 @@ class Utils:
         timeEmbedding = np.concatenate([timeEmbeddingCos,timeEmbeddingSin])
         timeEmbedding = timeEmbedding[None,:]   
         return timeEmbedding
+
+    @staticmethod
+    def getTimeEmbeddingTorch(timeStep:int,device ='cuda')->torch.Tensor:
+        t = timeStep
+        frequency = torch.arange(0,160.0) 
+        frequency = -frequency/160.0
+        frequency = 10000**frequency    
+        xk = t *frequency 
+        timeEmbeddingCos = torch.cos(xk)
+        timeEmbeddingSin = torch.sin(xk)
+        timeEmbedding = torch.cat([timeEmbeddingCos,timeEmbeddingSin],dim=-1)
+        timeEmbedding = timeEmbedding[None,:]   
+        return timeEmbedding
     
     @staticmethod
     def getTimeEmbeddingBatch(timeStep:torch.Tensor)->np.ndarray:   
