@@ -136,5 +136,13 @@ class Utils:
         return vaeEncoder,vaeDecoder,clipEncoder,diffusionProcess            
     
     
-    
+    @staticmethod
+    def showModelDevice(model):
+        devices = {param.device for param in model.parameters()}
+        if len(devices) > 1:
+            print(f"⚠️ Warning: Model is split across multiple devices: {devices}")
+        else:
+            print(f"✅ Model is entirely on: {list(devices)[0]}")
+
+
         
