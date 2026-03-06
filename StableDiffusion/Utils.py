@@ -53,6 +53,21 @@ class Utils:
         timeEmbeddingSin = np.sin(xk)
         timeEmbedding = np.concatenate([timeEmbeddingCos,timeEmbeddingSin],axis=1)
         return timeEmbedding
+    @staticmethod
+    def getTimeEmbeddingBatchTorch(timeStep:torch.Tensor,device='cuda')->np.ndarray:  
+        device = device
+        t = timeStep
+        t = t[:,None]
+        #print(t.shape)
+        frequency = torch.arange(0,160.0,device=device) 
+        frequency = -frequency/160.0
+        frequency = 10000**frequency    
+        xk = t *frequency 
+        #print(xk.shape)
+        timeEmbeddingCos = torch.cos(xk)
+        timeEmbeddingSin = torch.sin(xk)
+        timeEmbedding = torch.cat([timeEmbeddingCos,timeEmbeddingSin],axis=1)
+        return timeEmbedding
     
     @staticmethod
     def rescaleImageRange(inputImage:np.ndarray,oldRange:Tuple[float,float]=[-1,1],newRange:Tuple[float,float]=[0,1],isClamp:bool = True)->np.ndarray:
