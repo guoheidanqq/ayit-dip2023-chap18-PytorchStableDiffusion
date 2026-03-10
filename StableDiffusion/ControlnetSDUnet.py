@@ -8,10 +8,10 @@ from .Utils import Utils
 
 
 class ControlnetSDUnet(nn.Module):
-    def __init__(self,unetDesnoise:UnetDenoise):
+    def __init__(self,unetDesnoise:UnetDenoise,timeEmbedLayer:TimeEmbedding):
         super().__init__()
         self.unet = unetDesnoise
-        self.time_embedding = TimeEmbedding(embeddingDimension=320)
+        self.time_embedding = timeEmbedLayer
         for name,param in self.unet.named_parameters():
             param.requires_grad_(False)
         for name,param in self.time_embedding.named_parameters():
