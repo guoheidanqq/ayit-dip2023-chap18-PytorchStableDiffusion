@@ -14,12 +14,15 @@ class ControlnetSDUnet(nn.Module):
         self.time_embedding = TimeEmbedding(embeddingDimension=320)
         for name,param in self.unet.named_parameters():
             param.requires_grad_(False)
+        for name,param in self.time_embedding.named_parameters():
+            param.requires_grad_(False)
     
     
     def forward(self,latentInput:torch.Tensor,contextInput:torch.Tensor,
                 timeSteps:torch.Tensor,controlnetOutputs:Tuple[torch.Tensor])->torch.Tensor:
         # inputs shape: B,4,64,64
         # output shape: B,320,64,64
+        # controlnetOutputs shape: list of 13 Tensors 
         with torch.no_grad():
             device = next(self.parameters()).device
             latent = latentInput
@@ -35,18 +38,20 @@ class ControlnetSDUnet(nn.Module):
             
             latent = self.unet.bottleneck(latent,context,time)
             #print(f'bottle neck layer {12} ,latent shape {latent.shape} ')  
+            # inject bottlenecks from controlnet
+            
+        if controlnetOutputs is not None:
+            controlOut = controlnetOutputs.pop()
+            latent = latent + controlOut
+        
+        for i,layer in enumerate(self.unet.decoders):
+            skipLatent = skipConnections.pop()
             if controlnetOutputs is not None:
                 controlOut = controlnetOutputs.pop()
-                latent = latent + controlOut
-            
-            for i,layer in enumerate(self.unet.decoders):
-                skipLatent = skipConnections.pop()
-                if controlnetOutputs is not None:
-                    controlOut = controlnetOutputs.pop()
-                    skipLatent = skipLatent + controlOut
-                latent = torch.cat([latent,skipLatent],dim=1)
-                latent = layer(latent,context,time)
-                #print(f'decoder layer {11-i} ,latent shape {latent.shape} ')  
+                skipLatent = skipLatent + controlOut
+            latent = torch.cat([latent,skipLatent],dim=1)
+            latent = layer(latent,context,time)
+            #print(f'decoder layer {11-i} ,latent shape {latent.shape} ')  
         
         
         return latent

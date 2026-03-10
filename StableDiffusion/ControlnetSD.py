@@ -39,6 +39,8 @@ class ControlnetSD(nn.Module):
                 timeStep:torch.Tensor,
                 controlHint:Optional[torch.Tensor]=None)->torch.Tensor:
         # timeStep  B,
+        # input B,4,64,64
+        # output B,320,64,64
         latent = latentInput 
         context = contextInput
     

@@ -40,6 +40,8 @@ class CannyToLatent(nn.Module):
         ])
    
     def forward(self,input:torch.Tensor)->torch.Tensor:
+        # input: B,3,512,512
+        # output: B,320,64,64
         for layer in self.cannyToLatent:
             input = layer(input)
         return input
