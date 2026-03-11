@@ -9,7 +9,7 @@ from .UnetOutputLayer import UnetOutputLayer
 from .Utils import Utils
 
 class DiffusionProcessControlnet(nn.Module):
-    def __init__(self,controlnetUnet:Optional(ControlnetSDUnet)=None,controlnetOutputs:Optionla(ControlnetSD)=None):
+    def __init__(self,controlnetUnet:Optional[ControlnetSDUnet]=None,controlnetOutputs:Optional[ControlnetSD]=None):
         super().__init__()
         self.time_embedding = TimeEmbedding(embeddingDimension=320)
         self.unet = UnetDenoise()
