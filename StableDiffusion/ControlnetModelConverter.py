@@ -1,62 +1,90 @@
 import torch
 import torch
 
-def convert_ldm_to_diffusers(state_dict):
-    new_dict = {}
-    
-    # Mapping for standard blocks
-    key_map = {
-        "in_layers.0": "groupnorm_feature",
-        "in_layers.2": "conv_feature",
-        "emb_layers.1": "linear_time",
-        "out_layers.0": "groupnorm_merged",
-        "out_layers.3": "conv_merged",
-        "transformer_blocks.0.norm1": "layernorm_1",
-        "transformer_blocks.0.norm2": "layernorm_2",
-        "transformer_blocks.0.norm3": "layernorm_3",
-        "ff.net.0.proj": "linear_geglu_1",
-        "ff.net.2": "linear_geglu_2",
-        "proj_in": "conv_input",
-        "proj_out": "conv_output",
-        "skip_connection": "residual_layer"
-    }
+import torch
 
-    for key, weight in state_dict.items():
-        # Remove prefix
+def convert_ldm_to_diffusers(original_sd):
+    new_sd = {}
+    
+    # Track attention parts to concatenate later
+    attn_parts = {}
+
+    for key, value in original_sd.items():
+        # Remove the 'control_model.' prefix
         k = key.replace("control_model.", "")
         
-        # 1. Handle Self-Attention (attn1) concatenation
-        if "attn1.to_" in k:
-            continue
-            
-        # 2. Rename standard layers
-        for old, new in key_map.items():
-            k = k.replace(old, new)
-            
-        # 3. Clean up specific naming patterns
-        k = k.replace("attn1.to_out.0", "attention_1.out_proj")
-        k = k.replace("attn2.to_out.0", "attention_2.out_proj")
-        
-        # Cross-Attention naming
-        k = k.replace("attn2.to_q", "attention_2.q_proj")
-        k = k.replace("attn2.to_k", "attention_2.k_proj")
-        k = k.replace("attn2.to_v", "attention_2.v_proj")
-        
-        new_dict[k] = weight
+        # 1. Time Embeddings
+        if k.startswith("time_embed"):
+            k = k.replace("time_embed.0", "time_embed.linear_1")\
+            .replace("time_embed.2", "time_embed.linear_2")
 
-    # 4. Perform Concatenation for Self-Attention (attn1)
-    # Target all blocks that contain transformer_blocks.0.attn1
-    for i in range(12): # input_blocks
-        for j in [1]:  # transformer_blocks index
-            prefix = f"input_blocks.{i}.{j}.transformer_blocks.0.attn1"
-            q = state_dict.get(f"control_model.input_blocks.{i}.{j}.transformer_blocks.0.attn1.to_q.weight")
-            k = state_dict.get(f"control_model.input_blocks.{i}.{j}.transformer_blocks.0.attn1.to_k.weight")
-            v = state_dict.get(f"control_model.input_blocks.{i}.{j}.transformer_blocks.0.attn1.to_v.weight")
-            
-            if q is not None:
-                new_dict[f"input_blocks.{i}.{j}.attention_1.in_proj.weight"] = torch.cat([q, k, v], dim=0)
+        # 2. Input Hint Block (Canny To Latent)
+        if k.startswith("input_hint_block"):
+            k = k.replace("input_hint_block", "input_hint_block.cannyToLatent")
+            if ".14." in k:
+                k = k.replace(".14.", ".14.zeroConv.")
+        if k.startswith("zero_convs"):
+            # e.g., zero_convs.0.0.weight -> zero_convs.0.zeroConv.weight
+            parts = k.split('.')
+            k = f"zero_convs.{parts[1]}.zeroConv.{parts[3]}"
 
-    return new_dict
+        if k.startswith("middle_block_out"):
+            k = k.replace("middle_block_out.0", "middle_block_out.zeroConv")
+
+        # 3. Input Blocks & Middle Blocks (ResNet + Downsample)
+        if "input_blocks." in k or "middle_block." in k:
+            # ResNet mappings            
+            k = k.replace(".in_layers.0", ".groupnorm_feature")
+            k = k.replace(".in_layers.2", ".conv_feature")
+            k = k.replace(".emb_layers.1", ".linear_time")
+            k = k.replace(".out_layers.0", ".groupnorm_merged")
+            k = k.replace(".out_layers.3", ".conv_merged")
+            k = k.replace(".skip_connection", ".residual_layer")
+            # Downsample mapping
+        # 4. Zero Convolutions
+
+        new_sd[k] = value
+
+    # Final Step: Perform concatenation for in_proj (Self-Attention)
+    for target_key, components in attn_parts.items():
+        # Stack in order: Q, K, V
+        new_sd[target_key] = torch.cat([components['q'], components['k'], components['v']], dim=0)
+
+    return new_sd
+            
+'''   
+k = k.replace(".op.", ".")
+            
+            # Spatial Transformer mappings
+            if "transformer_blocks" in k:
+                k = k.replace(".norm1", ".layernorm_1").replace(".norm2", ".layernorm_2").replace(".norm3", ".layernorm_3")
+                k = k.replace(".ff.net.0.proj", ".linear_geglu_1").replace(".ff.net.2", ".linear_geglu_2")
+                k = k.replace(".attn2.to_q", ".attention_2.q_proj").replace(".attn2.to_k", ".attention_2.k_proj")
+                k = k.replace(".attn2.to_v", ".attention_2.v_proj").replace(".attn2.to_out.0", ".attention_2.out_proj")
+                k = k.replace(".attn1.to_out.0", ".attention_1.out_proj")
+                
+                # Special Case: Handle self-attention concatenation for in_proj
+                if ".attn1.to_q" in k or ".attn1.to_k" in k or ".attn1.to_v" in k:
+                    base_name = k.rsplit(".attn1.to_", 1)[0]
+                    param_type = "weight" if "weight" in k else "bias"
+                    comp_type = k.split(".to_")[-1].split(".")[0] # q, k, or v
+                    
+                    target_key = f"{base_name}.attention_1.in_proj.{param_type}"
+                    if target_key not in attn_parts: attn_parts[target_key] = {}
+                    attn_parts[target_key][comp_type] = value
+                    continue # Do not add to new_sd yet
+
+            # Norms and projections inside blocks
+            k = k.replace(".norm.", ".groupnorm.")
+            k = k.replace(".proj_in.", ".conv_input.")
+            k = k.replace(".proj_out.", ".conv_output.")
+            
+'''
+
+
+# Validation Logic
+# Assuming 'original_sd' is your input dictionary
+# mapped_sd = map_state_dict(original_sd)
 
 def ControlnetModelConverter(filePath:str)->dict[str,torch.Tensor]:
     ldmDict = torch.load("../models/ControlNet-v1-1/control_v11p_sd15_canny.pth", map_location='cpu')

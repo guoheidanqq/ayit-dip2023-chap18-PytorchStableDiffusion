@@ -1,0 +1,326 @@
+input_blocks.0.0.weight torch.Size([320, 4, 3, 3]) True
+input_blocks.0.0.bias torch.Size([320]) True
+input_blocks.1.0.groupnorm_feature.weight torch.Size([320]) True
+input_blocks.1.0.groupnorm_feature.bias torch.Size([320]) True
+input_blocks.1.0.conv_feature.weight torch.Size([320, 320, 3, 3]) True
+input_blocks.1.0.conv_feature.bias torch.Size([320]) True
+input_blocks.1.0.linear_time.weight torch.Size([320, 1280]) True
+input_blocks.1.0.linear_time.bias torch.Size([320]) True
+input_blocks.1.0.groupnorm_merged.weight torch.Size([320]) True
+input_blocks.1.0.groupnorm_merged.bias torch.Size([320]) True
+input_blocks.1.0.conv_merged.weight torch.Size([320, 320, 3, 3]) True
+input_blocks.1.0.conv_merged.bias torch.Size([320]) True
+input_blocks.1.1.groupnorm.weight torch.Size([320]) True
+input_blocks.1.1.groupnorm.bias torch.Size([320]) True
+input_blocks.1.1.conv_input.weight torch.Size([320, 320, 1, 1]) True
+input_blocks.1.1.conv_input.bias torch.Size([320]) True
+input_blocks.1.1.layernorm_1.weight torch.Size([320]) True
+input_blocks.1.1.layernorm_1.bias torch.Size([320]) True
+input_blocks.1.1.attention_1.in_proj.weight torch.Size([960, 320]) True
+input_blocks.1.1.attention_1.out_proj.weight torch.Size([320, 320]) True
+input_blocks.1.1.attention_1.out_proj.bias torch.Size([320]) True
+input_blocks.1.1.layernorm_2.weight torch.Size([320]) True
+input_blocks.1.1.layernorm_2.bias torch.Size([320]) True
+input_blocks.1.1.attention_2.q_proj.weight torch.Size([320, 320]) True
+input_blocks.1.1.attention_2.k_proj.weight torch.Size([320, 768]) True
+input_blocks.1.1.attention_2.v_proj.weight torch.Size([320, 768]) True
+input_blocks.1.1.attention_2.out_proj.weight torch.Size([320, 320]) True
+input_blocks.1.1.attention_2.out_proj.bias torch.Size([320]) True
+input_blocks.1.1.layernorm_3.weight torch.Size([320]) True
+input_blocks.1.1.layernorm_3.bias torch.Size([320]) True
+input_blocks.1.1.linear_geglu_1.weight torch.Size([2560, 320]) True
+input_blocks.1.1.linear_geglu_1.bias torch.Size([2560]) True
+input_blocks.1.1.linear_geglu_2.weight torch.Size([320, 1280]) True
+input_blocks.1.1.linear_geglu_2.bias torch.Size([320]) True
+input_blocks.1.1.conv_output.weight torch.Size([320, 320, 1, 1]) True
+input_blocks.1.1.conv_output.bias torch.Size([320]) True
+input_blocks.2.0.groupnorm_feature.weight torch.Size([320]) True
+input_blocks.2.0.groupnorm_feature.bias torch.Size([320]) True
+input_blocks.2.0.conv_feature.weight torch.Size([320, 320, 3, 3]) True
+input_blocks.2.0.conv_feature.bias torch.Size([320]) True
+input_blocks.2.0.linear_time.weight torch.Size([320, 1280]) True
+input_blocks.2.0.linear_time.bias torch.Size([320]) True
+input_blocks.2.0.groupnorm_merged.weight torch.Size([320]) True
+input_blocks.2.0.groupnorm_merged.bias torch.Size([320]) True
+input_blocks.2.0.conv_merged.weight torch.Size([320, 320, 3, 3]) True
+input_blocks.2.0.conv_merged.bias torch.Size([320]) True
+input_blocks.2.1.groupnorm.weight torch.Size([320]) True
+input_blocks.2.1.groupnorm.bias torch.Size([320]) True
+input_blocks.2.1.conv_input.weight torch.Size([320, 320, 1, 1]) True
+input_blocks.2.1.conv_input.bias torch.Size([320]) True
+input_blocks.2.1.layernorm_1.weight torch.Size([320]) True
+input_blocks.2.1.layernorm_1.bias torch.Size([320]) True
+input_blocks.2.1.attention_1.in_proj.weight torch.Size([960, 320]) True
+input_blocks.2.1.attention_1.out_proj.weight torch.Size([320, 320]) True
+input_blocks.2.1.attention_1.out_proj.bias torch.Size([320]) True
+input_blocks.2.1.layernorm_2.weight torch.Size([320]) True
+input_blocks.2.1.layernorm_2.bias torch.Size([320]) True
+input_blocks.2.1.attention_2.q_proj.weight torch.Size([320, 320]) True
+input_blocks.2.1.attention_2.k_proj.weight torch.Size([320, 768]) True
+input_blocks.2.1.attention_2.v_proj.weight torch.Size([320, 768]) True
+input_blocks.2.1.attention_2.out_proj.weight torch.Size([320, 320]) True
+input_blocks.2.1.attention_2.out_proj.bias torch.Size([320]) True
+input_blocks.2.1.layernorm_3.weight torch.Size([320]) True
+input_blocks.2.1.layernorm_3.bias torch.Size([320]) True
+input_blocks.2.1.linear_geglu_1.weight torch.Size([2560, 320]) True
+input_blocks.2.1.linear_geglu_1.bias torch.Size([2560]) True
+input_blocks.2.1.linear_geglu_2.weight torch.Size([320, 1280]) True
+input_blocks.2.1.linear_geglu_2.bias torch.Size([320]) True
+input_blocks.2.1.conv_output.weight torch.Size([320, 320, 1, 1]) True
+input_blocks.2.1.conv_output.bias torch.Size([320]) True
+input_blocks.3.0.weight torch.Size([320, 320, 3, 3]) True
+input_blocks.3.0.bias torch.Size([320]) True
+input_blocks.4.0.groupnorm_feature.weight torch.Size([320]) True
+input_blocks.4.0.groupnorm_feature.bias torch.Size([320]) True
+input_blocks.4.0.conv_feature.weight torch.Size([640, 320, 3, 3]) True
+input_blocks.4.0.conv_feature.bias torch.Size([640]) True
+input_blocks.4.0.linear_time.weight torch.Size([640, 1280]) True
+input_blocks.4.0.linear_time.bias torch.Size([640]) True
+input_blocks.4.0.groupnorm_merged.weight torch.Size([640]) True
+input_blocks.4.0.groupnorm_merged.bias torch.Size([640]) True
+input_blocks.4.0.conv_merged.weight torch.Size([640, 640, 3, 3]) True
+input_blocks.4.0.conv_merged.bias torch.Size([640]) True
+input_blocks.4.0.residual_layer.weight torch.Size([640, 320, 1, 1]) True
+input_blocks.4.0.residual_layer.bias torch.Size([640]) True
+input_blocks.4.1.groupnorm.weight torch.Size([640]) True
+input_blocks.4.1.groupnorm.bias torch.Size([640]) True
+input_blocks.4.1.conv_input.weight torch.Size([640, 640, 1, 1]) True
+input_blocks.4.1.conv_input.bias torch.Size([640]) True
+input_blocks.4.1.layernorm_1.weight torch.Size([640]) True
+input_blocks.4.1.layernorm_1.bias torch.Size([640]) True
+input_blocks.4.1.attention_1.in_proj.weight torch.Size([1920, 640]) True
+input_blocks.4.1.attention_1.out_proj.weight torch.Size([640, 640]) True
+input_blocks.4.1.attention_1.out_proj.bias torch.Size([640]) True
+input_blocks.4.1.layernorm_2.weight torch.Size([640]) True
+input_blocks.4.1.layernorm_2.bias torch.Size([640]) True
+input_blocks.4.1.attention_2.q_proj.weight torch.Size([640, 640]) True
+input_blocks.4.1.attention_2.k_proj.weight torch.Size([640, 768]) True
+input_blocks.4.1.attention_2.v_proj.weight torch.Size([640, 768]) True
+input_blocks.4.1.attention_2.out_proj.weight torch.Size([640, 640]) True
+input_blocks.4.1.attention_2.out_proj.bias torch.Size([640]) True
+input_blocks.4.1.layernorm_3.weight torch.Size([640]) True
+input_blocks.4.1.layernorm_3.bias torch.Size([640]) True
+input_blocks.4.1.linear_geglu_1.weight torch.Size([5120, 640]) True
+input_blocks.4.1.linear_geglu_1.bias torch.Size([5120]) True
+input_blocks.4.1.linear_geglu_2.weight torch.Size([640, 2560]) True
+input_blocks.4.1.linear_geglu_2.bias torch.Size([640]) True
+input_blocks.4.1.conv_output.weight torch.Size([640, 640, 1, 1]) True
+input_blocks.4.1.conv_output.bias torch.Size([640]) True
+input_blocks.5.0.groupnorm_feature.weight torch.Size([640]) True
+input_blocks.5.0.groupnorm_feature.bias torch.Size([640]) True
+input_blocks.5.0.conv_feature.weight torch.Size([640, 640, 3, 3]) True
+input_blocks.5.0.conv_feature.bias torch.Size([640]) True
+input_blocks.5.0.linear_time.weight torch.Size([640, 1280]) True
+input_blocks.5.0.linear_time.bias torch.Size([640]) True
+input_blocks.5.0.groupnorm_merged.weight torch.Size([640]) True
+input_blocks.5.0.groupnorm_merged.bias torch.Size([640]) True
+input_blocks.5.0.conv_merged.weight torch.Size([640, 640, 3, 3]) True
+input_blocks.5.0.conv_merged.bias torch.Size([640]) True
+input_blocks.5.1.groupnorm.weight torch.Size([640]) True
+input_blocks.5.1.groupnorm.bias torch.Size([640]) True
+input_blocks.5.1.conv_input.weight torch.Size([640, 640, 1, 1]) True
+input_blocks.5.1.conv_input.bias torch.Size([640]) True
+input_blocks.5.1.layernorm_1.weight torch.Size([640]) True
+input_blocks.5.1.layernorm_1.bias torch.Size([640]) True
+input_blocks.5.1.attention_1.in_proj.weight torch.Size([1920, 640]) True
+input_blocks.5.1.attention_1.out_proj.weight torch.Size([640, 640]) True
+input_blocks.5.1.attention_1.out_proj.bias torch.Size([640]) True
+input_blocks.5.1.layernorm_2.weight torch.Size([640]) True
+input_blocks.5.1.layernorm_2.bias torch.Size([640]) True
+input_blocks.5.1.attention_2.q_proj.weight torch.Size([640, 640]) True
+input_blocks.5.1.attention_2.k_proj.weight torch.Size([640, 768]) True
+input_blocks.5.1.attention_2.v_proj.weight torch.Size([640, 768]) True
+input_blocks.5.1.attention_2.out_proj.weight torch.Size([640, 640]) True
+input_blocks.5.1.attention_2.out_proj.bias torch.Size([640]) True
+input_blocks.5.1.layernorm_3.weight torch.Size([640]) True
+input_blocks.5.1.layernorm_3.bias torch.Size([640]) True
+input_blocks.5.1.linear_geglu_1.weight torch.Size([5120, 640]) True
+input_blocks.5.1.linear_geglu_1.bias torch.Size([5120]) True
+input_blocks.5.1.linear_geglu_2.weight torch.Size([640, 2560]) True
+input_blocks.5.1.linear_geglu_2.bias torch.Size([640]) True
+input_blocks.5.1.conv_output.weight torch.Size([640, 640, 1, 1]) True
+input_blocks.5.1.conv_output.bias torch.Size([640]) True
+input_blocks.6.0.weight torch.Size([640, 640, 3, 3]) True
+input_blocks.6.0.bias torch.Size([640]) True
+input_blocks.7.0.groupnorm_feature.weight torch.Size([640]) True
+input_blocks.7.0.groupnorm_feature.bias torch.Size([640]) True
+input_blocks.7.0.conv_feature.weight torch.Size([1280, 640, 3, 3]) True
+input_blocks.7.0.conv_feature.bias torch.Size([1280]) True
+input_blocks.7.0.linear_time.weight torch.Size([1280, 1280]) True
+input_blocks.7.0.linear_time.bias torch.Size([1280]) True
+input_blocks.7.0.groupnorm_merged.weight torch.Size([1280]) True
+input_blocks.7.0.groupnorm_merged.bias torch.Size([1280]) True
+input_blocks.7.0.conv_merged.weight torch.Size([1280, 1280, 3, 3]) True
+input_blocks.7.0.conv_merged.bias torch.Size([1280]) True
+input_blocks.7.0.residual_layer.weight torch.Size([1280, 640, 1, 1]) True
+input_blocks.7.0.residual_layer.bias torch.Size([1280]) True
+input_blocks.7.1.groupnorm.weight torch.Size([1280]) True
+input_blocks.7.1.groupnorm.bias torch.Size([1280]) True
+input_blocks.7.1.conv_input.weight torch.Size([1280, 1280, 1, 1]) True
+input_blocks.7.1.conv_input.bias torch.Size([1280]) True
+input_blocks.7.1.layernorm_1.weight torch.Size([1280]) True
+input_blocks.7.1.layernorm_1.bias torch.Size([1280]) True
+input_blocks.7.1.attention_1.in_proj.weight torch.Size([3840, 1280]) True
+input_blocks.7.1.attention_1.out_proj.weight torch.Size([1280, 1280]) True
+input_blocks.7.1.attention_1.out_proj.bias torch.Size([1280]) True
+input_blocks.7.1.layernorm_2.weight torch.Size([1280]) True
+input_blocks.7.1.layernorm_2.bias torch.Size([1280]) True
+input_blocks.7.1.attention_2.q_proj.weight torch.Size([1280, 1280]) True
+input_blocks.7.1.attention_2.k_proj.weight torch.Size([1280, 768]) True
+input_blocks.7.1.attention_2.v_proj.weight torch.Size([1280, 768]) True
+input_blocks.7.1.attention_2.out_proj.weight torch.Size([1280, 1280]) True
+input_blocks.7.1.attention_2.out_proj.bias torch.Size([1280]) True
+input_blocks.7.1.layernorm_3.weight torch.Size([1280]) True
+input_blocks.7.1.layernorm_3.bias torch.Size([1280]) True
+input_blocks.7.1.linear_geglu_1.weight torch.Size([10240, 1280]) True
+input_blocks.7.1.linear_geglu_1.bias torch.Size([10240]) True
+input_blocks.7.1.linear_geglu_2.weight torch.Size([1280, 5120]) True
+input_blocks.7.1.linear_geglu_2.bias torch.Size([1280]) True
+input_blocks.7.1.conv_output.weight torch.Size([1280, 1280, 1, 1]) True
+input_blocks.7.1.conv_output.bias torch.Size([1280]) True
+input_blocks.8.0.groupnorm_feature.weight torch.Size([1280]) True
+input_blocks.8.0.groupnorm_feature.bias torch.Size([1280]) True
+input_blocks.8.0.conv_feature.weight torch.Size([1280, 1280, 3, 3]) True
+input_blocks.8.0.conv_feature.bias torch.Size([1280]) True
+input_blocks.8.0.linear_time.weight torch.Size([1280, 1280]) True
+input_blocks.8.0.linear_time.bias torch.Size([1280]) True
+input_blocks.8.0.groupnorm_merged.weight torch.Size([1280]) True
+input_blocks.8.0.groupnorm_merged.bias torch.Size([1280]) True
+input_blocks.8.0.conv_merged.weight torch.Size([1280, 1280, 3, 3]) True
+input_blocks.8.0.conv_merged.bias torch.Size([1280]) True
+input_blocks.8.1.groupnorm.weight torch.Size([1280]) True
+input_blocks.8.1.groupnorm.bias torch.Size([1280]) True
+input_blocks.8.1.conv_input.weight torch.Size([1280, 1280, 1, 1]) True
+input_blocks.8.1.conv_input.bias torch.Size([1280]) True
+input_blocks.8.1.layernorm_1.weight torch.Size([1280]) True
+input_blocks.8.1.layernorm_1.bias torch.Size([1280]) True
+input_blocks.8.1.attention_1.in_proj.weight torch.Size([3840, 1280]) True
+input_blocks.8.1.attention_1.out_proj.weight torch.Size([1280, 1280]) True
+input_blocks.8.1.attention_1.out_proj.bias torch.Size([1280]) True
+input_blocks.8.1.layernorm_2.weight torch.Size([1280]) True
+input_blocks.8.1.layernorm_2.bias torch.Size([1280]) True
+input_blocks.8.1.attention_2.q_proj.weight torch.Size([1280, 1280]) True
+input_blocks.8.1.attention_2.k_proj.weight torch.Size([1280, 768]) True
+input_blocks.8.1.attention_2.v_proj.weight torch.Size([1280, 768]) True
+input_blocks.8.1.attention_2.out_proj.weight torch.Size([1280, 1280]) True
+input_blocks.8.1.attention_2.out_proj.bias torch.Size([1280]) True
+input_blocks.8.1.layernorm_3.weight torch.Size([1280]) True
+input_blocks.8.1.layernorm_3.bias torch.Size([1280]) True
+input_blocks.8.1.linear_geglu_1.weight torch.Size([10240, 1280]) True
+input_blocks.8.1.linear_geglu_1.bias torch.Size([10240]) True
+input_blocks.8.1.linear_geglu_2.weight torch.Size([1280, 5120]) True
+input_blocks.8.1.linear_geglu_2.bias torch.Size([1280]) True
+input_blocks.8.1.conv_output.weight torch.Size([1280, 1280, 1, 1]) True
+input_blocks.8.1.conv_output.bias torch.Size([1280]) True
+input_blocks.9.0.weight torch.Size([1280, 1280, 3, 3]) True
+input_blocks.9.0.bias torch.Size([1280]) True
+input_blocks.10.0.groupnorm_feature.weight torch.Size([1280]) True
+input_blocks.10.0.groupnorm_feature.bias torch.Size([1280]) True
+input_blocks.10.0.conv_feature.weight torch.Size([1280, 1280, 3, 3]) True
+input_blocks.10.0.conv_feature.bias torch.Size([1280]) True
+input_blocks.10.0.linear_time.weight torch.Size([1280, 1280]) True
+input_blocks.10.0.linear_time.bias torch.Size([1280]) True
+input_blocks.10.0.groupnorm_merged.weight torch.Size([1280]) True
+input_blocks.10.0.groupnorm_merged.bias torch.Size([1280]) True
+input_blocks.10.0.conv_merged.weight torch.Size([1280, 1280, 3, 3]) True
+input_blocks.10.0.conv_merged.bias torch.Size([1280]) True
+input_blocks.11.0.groupnorm_feature.weight torch.Size([1280]) True
+input_blocks.11.0.groupnorm_feature.bias torch.Size([1280]) True
+input_blocks.11.0.conv_feature.weight torch.Size([1280, 1280, 3, 3]) True
+input_blocks.11.0.conv_feature.bias torch.Size([1280]) True
+input_blocks.11.0.linear_time.weight torch.Size([1280, 1280]) True
+input_blocks.11.0.linear_time.bias torch.Size([1280]) True
+input_blocks.11.0.groupnorm_merged.weight torch.Size([1280]) True
+input_blocks.11.0.groupnorm_merged.bias torch.Size([1280]) True
+input_blocks.11.0.conv_merged.weight torch.Size([1280, 1280, 3, 3]) True
+input_blocks.11.0.conv_merged.bias torch.Size([1280]) True
+middle_block.0.groupnorm_feature.weight torch.Size([1280]) True
+middle_block.0.groupnorm_feature.bias torch.Size([1280]) True
+middle_block.0.conv_feature.weight torch.Size([1280, 1280, 3, 3]) True
+middle_block.0.conv_feature.bias torch.Size([1280]) True
+middle_block.0.linear_time.weight torch.Size([1280, 1280]) True
+middle_block.0.linear_time.bias torch.Size([1280]) True
+middle_block.0.groupnorm_merged.weight torch.Size([1280]) True
+middle_block.0.groupnorm_merged.bias torch.Size([1280]) True
+middle_block.0.conv_merged.weight torch.Size([1280, 1280, 3, 3]) True
+middle_block.0.conv_merged.bias torch.Size([1280]) True
+middle_block.1.groupnorm.weight torch.Size([1280]) True
+middle_block.1.groupnorm.bias torch.Size([1280]) True
+middle_block.1.conv_input.weight torch.Size([1280, 1280, 1, 1]) True
+middle_block.1.conv_input.bias torch.Size([1280]) True
+middle_block.1.layernorm_1.weight torch.Size([1280]) True
+middle_block.1.layernorm_1.bias torch.Size([1280]) True
+middle_block.1.attention_1.in_proj.weight torch.Size([3840, 1280]) True
+middle_block.1.attention_1.out_proj.weight torch.Size([1280, 1280]) True
+middle_block.1.attention_1.out_proj.bias torch.Size([1280]) True
+middle_block.1.layernorm_2.weight torch.Size([1280]) True
+middle_block.1.layernorm_2.bias torch.Size([1280]) True
+middle_block.1.attention_2.q_proj.weight torch.Size([1280, 1280]) True
+middle_block.1.attention_2.k_proj.weight torch.Size([1280, 768]) True
+middle_block.1.attention_2.v_proj.weight torch.Size([1280, 768]) True
+middle_block.1.attention_2.out_proj.weight torch.Size([1280, 1280]) True
+middle_block.1.attention_2.out_proj.bias torch.Size([1280]) True
+middle_block.1.layernorm_3.weight torch.Size([1280]) True
+middle_block.1.layernorm_3.bias torch.Size([1280]) True
+middle_block.1.linear_geglu_1.weight torch.Size([10240, 1280]) True
+middle_block.1.linear_geglu_1.bias torch.Size([10240]) True
+middle_block.1.linear_geglu_2.weight torch.Size([1280, 5120]) True
+middle_block.1.linear_geglu_2.bias torch.Size([1280]) True
+middle_block.1.conv_output.weight torch.Size([1280, 1280, 1, 1]) True
+middle_block.1.conv_output.bias torch.Size([1280]) True
+middle_block.2.groupnorm_feature.weight torch.Size([1280]) True
+middle_block.2.groupnorm_feature.bias torch.Size([1280]) True
+middle_block.2.conv_feature.weight torch.Size([1280, 1280, 3, 3]) True
+middle_block.2.conv_feature.bias torch.Size([1280]) True
+middle_block.2.linear_time.weight torch.Size([1280, 1280]) True
+middle_block.2.linear_time.bias torch.Size([1280]) True
+middle_block.2.groupnorm_merged.weight torch.Size([1280]) True
+middle_block.2.groupnorm_merged.bias torch.Size([1280]) True
+middle_block.2.conv_merged.weight torch.Size([1280, 1280, 3, 3]) True
+middle_block.2.conv_merged.bias torch.Size([1280]) True
+zero_convs.0.zeroConv.weight torch.Size([320, 320, 1, 1]) True
+zero_convs.0.zeroConv.bias torch.Size([320]) True
+zero_convs.1.zeroConv.weight torch.Size([320, 320, 1, 1]) True
+zero_convs.1.zeroConv.bias torch.Size([320]) True
+zero_convs.2.zeroConv.weight torch.Size([320, 320, 1, 1]) True
+zero_convs.2.zeroConv.bias torch.Size([320]) True
+zero_convs.3.zeroConv.weight torch.Size([320, 320, 1, 1]) True
+zero_convs.3.zeroConv.bias torch.Size([320]) True
+zero_convs.4.zeroConv.weight torch.Size([640, 640, 1, 1]) True
+zero_convs.4.zeroConv.bias torch.Size([640]) True
+zero_convs.5.zeroConv.weight torch.Size([640, 640, 1, 1]) True
+zero_convs.5.zeroConv.bias torch.Size([640]) True
+zero_convs.6.zeroConv.weight torch.Size([640, 640, 1, 1]) True
+zero_convs.6.zeroConv.bias torch.Size([640]) True
+zero_convs.7.zeroConv.weight torch.Size([1280, 1280, 1, 1]) True
+zero_convs.7.zeroConv.bias torch.Size([1280]) True
+zero_convs.8.zeroConv.weight torch.Size([1280, 1280, 1, 1]) True
+zero_convs.8.zeroConv.bias torch.Size([1280]) True
+zero_convs.9.zeroConv.weight torch.Size([1280, 1280, 1, 1]) True
+zero_convs.9.zeroConv.bias torch.Size([1280]) True
+zero_convs.10.zeroConv.weight torch.Size([1280, 1280, 1, 1]) True
+zero_convs.10.zeroConv.bias torch.Size([1280]) True
+zero_convs.11.zeroConv.weight torch.Size([1280, 1280, 1, 1]) True
+zero_convs.11.zeroConv.bias torch.Size([1280]) True
+time_embed.linear_1.weight torch.Size([1280, 320]) True
+time_embed.linear_1.bias torch.Size([1280]) True
+time_embed.linear_2.weight torch.Size([1280, 1280]) True
+time_embed.linear_2.bias torch.Size([1280]) True
+input_hint_block.cannyToLatent.0.weight torch.Size([16, 3, 3, 3]) True
+input_hint_block.cannyToLatent.0.bias torch.Size([16]) True
+input_hint_block.cannyToLatent.2.weight torch.Size([16, 16, 3, 3]) True
+input_hint_block.cannyToLatent.2.bias torch.Size([16]) True
+input_hint_block.cannyToLatent.4.weight torch.Size([32, 16, 3, 3]) True
+input_hint_block.cannyToLatent.4.bias torch.Size([32]) True
+input_hint_block.cannyToLatent.6.weight torch.Size([32, 32, 3, 3]) True
+input_hint_block.cannyToLatent.6.bias torch.Size([32]) True
+input_hint_block.cannyToLatent.8.weight torch.Size([96, 32, 3, 3]) True
+input_hint_block.cannyToLatent.8.bias torch.Size([96]) True
+input_hint_block.cannyToLatent.10.weight torch.Size([96, 96, 3, 3]) True
+input_hint_block.cannyToLatent.10.bias torch.Size([96]) True
+input_hint_block.cannyToLatent.12.weight torch.Size([256, 96, 3, 3]) True
+input_hint_block.cannyToLatent.12.bias torch.Size([256]) True
+input_hint_block.cannyToLatent.14.zeroConv.weight torch.Size([320, 256, 3, 3]) True
+input_hint_block.cannyToLatent.14.zeroConv.bias torch.Size([320]) True
+middle_block_out.zeroConv.weight torch.Size([1280, 1280, 1, 1]) True
+middle_block_out.zeroConv.bias torch.Size([1280]) True
