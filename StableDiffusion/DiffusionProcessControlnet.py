@@ -9,7 +9,7 @@ from .UnetOutputLayer import UnetOutputLayer
 from .Utils import Utils
 
 class DiffusionProcessControlnet(nn.Module):
-    def __init__(self,controlnetUnet:Optional[ControlnetSDUnet]=None,controlnetOutputs:Optional[ControlnetSD]=None):
+    def __init__(self):
         super().__init__()
         self.time_embedding = TimeEmbedding(embeddingDimension=320)
         self.unet = UnetDenoise()
@@ -21,13 +21,18 @@ class DiffusionProcessControlnet(nn.Module):
             param.requires_grad = False
         
         for name,param in self.final.named_parameters():
-            param.requires_grad = False
-        self.controlUnet = None
+            param.requires_grad = False        
         self.controlOutput = None
-        if controlnetUnet is not None:
-            self.controlUnet = controlnetUnet
-        if controlnetOutputs is not None:
-            self.controlOutput = controlnetOutputs
+        self.controlUnet = None
+    
+    
+    def loadControlnetWeightsDict(self,controlWeightsDict:dict):        
+        if controlWeightsDict is not None:            
+            self.controlnetOutput = ControlnetSD(self.unet)
+            self.controlnetOutput.load_state_dict(controlWeightsDict,strict=False)
+            self.controlUnet = ControlnetSDUnet(self.unet,self.time_embedding)
+
+
 
     
     def forward(self,latentInput:torch.Tensor,

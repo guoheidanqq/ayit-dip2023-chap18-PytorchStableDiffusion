@@ -1,7 +1,4 @@
 import torch
-import torch
-
-import torch
 
 def convert_ldm_to_diffusers(original_sd):
     new_sd = {}
@@ -40,51 +37,98 @@ def convert_ldm_to_diffusers(original_sd):
             k = k.replace(".out_layers.0", ".groupnorm_merged")
             k = k.replace(".out_layers.3", ".conv_merged")
             k = k.replace(".skip_connection", ".residual_layer")
+            k = k.replace('.proj_out','.conv_output')
+            k = k.replace(".proj_in", ".conv_input")
+            k = k.replace('.1.norm','.1.groupnorm')
+        
+        
+        if ('input_blocks.' in k or 'middle_block.' in k ) and '.transformer_blocks.' in k:
+            k = k.replace('.transformer_blocks.0.norm1.','.layernorm_1.')
+            k = k.replace('.transformer_blocks.0.norm2.','.layernorm_2.')
+            k = k.replace('.transformer_blocks.0.norm3.','.layernorm_3.')
+            k = k.replace('.transformer_blocks.0.ff.net.0.proj.','.linear_geglu_1.')
+            k = k.replace('.transformer_blocks.0.ff.net.2.','.linear_geglu_2.')
+            k = k.replace('.transformer_blocks.0.attn1.to_out.0.','.attention_1.out_proj.')
+            k = k.replace('.transformer_blocks.0.attn2.to_out.0.','.attention_2.out_proj.')
+            k = k.replace('.transformer_blocks.0.attn2.to_q.','.attention_2.q_proj.')
+            k = k.replace('.transformer_blocks.0.attn2.to_k.','.attention_2.k_proj.')
+            k = k.replace('.transformer_blocks.0.attn2.to_v.','.attention_2.v_proj.') 
+        
+        
+        if ('input_blocks.' in k or 'middle_block.' in k ) and '.op.' in k:
+            k = k.replace(".0.op.", ".0.")
             # Downsample mapping
         # 4. Zero Convolutions
 
-        new_sd[k] = value
+        new_sd[k] = value    
 
     # Final Step: Perform concatenation for in_proj (Self-Attention)
-    for target_key, components in attn_parts.items():
-        # Stack in order: Q, K, V
-        new_sd[target_key] = torch.cat([components['q'], components['k'], components['v']], dim=0)
-
+    to_q = 'input_blocks.1.1.transformer_blocks.0.attn1.to_q.weight'
+    to_k ='input_blocks.1.1.transformer_blocks.0.attn1.to_k.weight'
+    to_v ='input_blocks.1.1.transformer_blocks.0.attn1.to_v.weight'
+    in_proj ='input_blocks.1.1.attention_1.in_proj.weight'
+    new_sd[in_proj] = torch.cat((new_sd[to_q],new_sd[to_k],new_sd[to_v]),dim=0)
+    del new_sd[to_q]
+    del new_sd[to_k]
+    del new_sd[to_v]
+        
+    to_q = 'input_blocks.2.1.transformer_blocks.0.attn1.to_q.weight'
+    to_k ='input_blocks.2.1.transformer_blocks.0.attn1.to_k.weight'
+    to_v ='input_blocks.2.1.transformer_blocks.0.attn1.to_v.weight'
+    in_proj ='input_blocks.2.1.attention_1.in_proj.weight'
+    new_sd[in_proj] = torch.cat((new_sd[to_q],new_sd[to_k],new_sd[to_v]),dim=0)
+    del new_sd[to_q]
+    del new_sd[to_k]
+    del new_sd[to_v]
+    
+    to_q = 'input_blocks.4.1.transformer_blocks.0.attn1.to_q.weight'
+    to_k ='input_blocks.4.1.transformer_blocks.0.attn1.to_k.weight'
+    to_v ='input_blocks.4.1.transformer_blocks.0.attn1.to_v.weight'
+    in_proj ='input_blocks.4.1.attention_1.in_proj.weight'
+    new_sd[in_proj] = torch.cat((new_sd[to_q],new_sd[to_k],new_sd[to_v]),dim=0)
+    del new_sd[to_q]
+    del new_sd[to_k]
+    del new_sd[to_v]
+    
+    to_q = 'input_blocks.5.1.transformer_blocks.0.attn1.to_q.weight'
+    to_k ='input_blocks.5.1.transformer_blocks.0.attn1.to_k.weight'
+    to_v ='input_blocks.5.1.transformer_blocks.0.attn1.to_v.weight'
+    in_proj ='input_blocks.5.1.attention_1.in_proj.weight'
+    new_sd[in_proj] = torch.cat((new_sd[to_q],new_sd[to_k],new_sd[to_v]),dim=0)
+    del new_sd[to_q]
+    del new_sd[to_k]
+    del new_sd[to_v]
+    
+    to_q = 'input_blocks.7.1.transformer_blocks.0.attn1.to_q.weight'
+    to_k ='input_blocks.7.1.transformer_blocks.0.attn1.to_k.weight'
+    to_v ='input_blocks.7.1.transformer_blocks.0.attn1.to_v.weight'
+    in_proj ='input_blocks.7.1.attention_1.in_proj.weight'
+    new_sd[in_proj] = torch.cat((new_sd[to_q],new_sd[to_k],new_sd[to_v]),dim=0)
+    del new_sd[to_q]
+    del new_sd[to_k]
+    del new_sd[to_v]
+    
+    to_q = 'input_blocks.8.1.transformer_blocks.0.attn1.to_q.weight'
+    to_k ='input_blocks.8.1.transformer_blocks.0.attn1.to_k.weight'
+    to_v ='input_blocks.8.1.transformer_blocks.0.attn1.to_v.weight'
+    in_proj ='input_blocks.8.1.attention_1.in_proj.weight'
+    new_sd[in_proj] = torch.cat((new_sd[to_q],new_sd[to_k],new_sd[to_v]),dim=0)
+    del new_sd[to_q]
+    del new_sd[to_k]
+    del new_sd[to_v]
+    
+    
+    to_q = 'middle_block.1.transformer_blocks.0.attn1.to_q.weight'
+    to_k = 'middle_block.1.transformer_blocks.0.attn1.to_k.weight'
+    to_v ='middle_block.1.transformer_blocks.0.attn1.to_v.weight'
+    in_proj ='middle_block.1.attention_1.in_proj.weight'
+    new_sd[in_proj] = torch.cat((new_sd[to_q],new_sd[to_k],new_sd[to_v]),dim=0)
+    del new_sd[to_q]
+    del new_sd[to_k]
+    del new_sd[to_v]
     return new_sd
             
-'''   
-k = k.replace(".op.", ".")
-            
-            # Spatial Transformer mappings
-            if "transformer_blocks" in k:
-                k = k.replace(".norm1", ".layernorm_1").replace(".norm2", ".layernorm_2").replace(".norm3", ".layernorm_3")
-                k = k.replace(".ff.net.0.proj", ".linear_geglu_1").replace(".ff.net.2", ".linear_geglu_2")
-                k = k.replace(".attn2.to_q", ".attention_2.q_proj").replace(".attn2.to_k", ".attention_2.k_proj")
-                k = k.replace(".attn2.to_v", ".attention_2.v_proj").replace(".attn2.to_out.0", ".attention_2.out_proj")
-                k = k.replace(".attn1.to_out.0", ".attention_1.out_proj")
-                
-                # Special Case: Handle self-attention concatenation for in_proj
-                if ".attn1.to_q" in k or ".attn1.to_k" in k or ".attn1.to_v" in k:
-                    base_name = k.rsplit(".attn1.to_", 1)[0]
-                    param_type = "weight" if "weight" in k else "bias"
-                    comp_type = k.split(".to_")[-1].split(".")[0] # q, k, or v
-                    
-                    target_key = f"{base_name}.attention_1.in_proj.{param_type}"
-                    if target_key not in attn_parts: attn_parts[target_key] = {}
-                    attn_parts[target_key][comp_type] = value
-                    continue # Do not add to new_sd yet
 
-            # Norms and projections inside blocks
-            k = k.replace(".norm.", ".groupnorm.")
-            k = k.replace(".proj_in.", ".conv_input.")
-            k = k.replace(".proj_out.", ".conv_output.")
-            
-'''
-
-
-# Validation Logic
-# Assuming 'original_sd' is your input dictionary
-# mapped_sd = map_state_dict(original_sd)
 
 def ControlnetModelConverter(filePath:str)->dict[str,torch.Tensor]:
     ldmDict = torch.load("../models/ControlNet-v1-1/control_v11p_sd15_canny.pth", map_location='cpu')
