@@ -23,6 +23,11 @@ class ControlnetSD(nn.Module):
         self.input_blocks = copy.deepcopy(self.unet.encoders)
         self.middle_block = copy.deepcopy(self.unet.bottleneck)
         
+        for name,param in self.input_blocks.named_parameters():
+            param.requires_grad_(True)
+        for name,param in self.middle_block.named_parameters():
+            param.requires_grad_(True)
+        
         for name,param in self.unet.named_parameters():
             param.requires_grad_(False)
         
