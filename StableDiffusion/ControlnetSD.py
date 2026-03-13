@@ -5,7 +5,7 @@ from typing import Optional
 from .UnetDenoise import UnetDenoise
 from .ControlnetTimeEmbedding import ControlnetTimeEmbedding
 from .CannyToLatent import CannyToLatent
-from .ZeorConvLayer import ZeroConvLayer
+from .ZeroConvLayer import ZeroConvLayer
 
 
 

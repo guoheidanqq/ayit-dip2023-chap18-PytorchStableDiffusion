@@ -1,6 +1,6 @@
 import torch
 import torch.nn as nn
-from .ZeorConvLayer import ZeroConvLayer
+from .ZeroConvLayer import ZeroConvLayer
 
 class CannyToLatent(nn.Module):
     def __init__(self,):

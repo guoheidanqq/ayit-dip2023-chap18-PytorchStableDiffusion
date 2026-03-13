@@ -22,15 +22,16 @@ class DiffusionProcessControlnet(nn.Module):
         
         for name,param in self.final.named_parameters():
             param.requires_grad = False        
-        self.controlOutput = None
-        self.controlUnet = None
+        self.controlnetOutput = None
+        self.controlnetUnet = None
     
     
     def loadControlnetWeightsDict(self,controlWeightsDict:dict):        
-        if controlWeightsDict is not None:            
-            self.controlnetOutput = ControlnetSD(self.unet)
+        if controlWeightsDict is not None:
+            device = next(self.parameters()).device            
+            self.controlnetOutput = ControlnetSD(self.unet).to(device)
             self.controlnetOutput.load_state_dict(controlWeightsDict,strict=False)
-            self.controlUnet = ControlnetSDUnet(self.unet,self.time_embedding)
+            self.controlnetUnet = ControlnetSDUnet(self.unet,self.time_embedding).to(device)
 
 
 
@@ -48,9 +49,9 @@ class DiffusionProcessControlnet(nn.Module):
         latentX = latentInput
         contextY = contextInput
         print(f'lantex.shape after unet {latentX.shape}')
-        controlOutputs = self.controlOutput(latentX,contextY,timeSteps,controlHint)
+        controlOutputs = self.controlnetOutput(latentX,contextY,timeSteps,controlHint)
         print(f'controlOutputs.length {len(controlOutputs)}')
-        latentX = self.controlUnet(latentX,contextY,timeSteps,controlOutputs)
+        latentX = self.controlnetUnet(latentX,contextY,timeSteps,controlOutputs)
         #predicted noise B,4,64,64
         latentX = self.final(latentX)
         #output predicted latent noise B,4,64,64
