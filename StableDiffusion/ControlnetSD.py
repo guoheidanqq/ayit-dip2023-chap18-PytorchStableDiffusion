@@ -57,7 +57,7 @@ class ControlnetSD(nn.Module):
             if controlHint is not None and i == 0:
                 latent = layer(latent,context,timeEmb1280)
                 latent = latent + cannyLatent
-                print(f'latent shape {latent.shape} cannyLatent shape {cannyLatent.shape}')
+                #print(f'latent shape {latent.shape} cannyLatent shape {cannyLatent.shape}')
                 controlHint = None
             else:
                 latent = layer(latent,context,timeEmb1280)

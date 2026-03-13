@@ -7,6 +7,7 @@ from .ControlnetSDUnet import ControlnetSDUnet
 from .ControlnetSD import ControlnetSD
 from .UnetOutputLayer import UnetOutputLayer
 from .Utils import Utils
+from .ControlnetModelConverter import ControlnetModelConverter
 
 class DiffusionProcessControlnet(nn.Module):
     def __init__(self):
@@ -30,7 +31,9 @@ class DiffusionProcessControlnet(nn.Module):
         if controlWeightsDict is not None:
             device = next(self.parameters()).device            
             self.controlnetOutput = ControlnetSD(self.unet).to(device)
-            self.controlnetOutput.load_state_dict(controlWeightsDict,strict=False)
+            newControlWeightsDict = ControlnetModelConverter(controlWeightsDict)
+            misssingKeys, unexpectedKeys = self.controlnetOutput.load_state_dict(newControlWeightsDict,strict=False)
+            #print(f'misssingKeys {misssingKeys}, unexpectedKeys {unexpectedKeys}')
             self.controlnetUnet = ControlnetSDUnet(self.unet,self.time_embedding).to(device)
 
 
@@ -48,9 +51,9 @@ class DiffusionProcessControlnet(nn.Module):
         device = next(self.parameters()).device
         latentX = latentInput
         contextY = contextInput
-        print(f'lantex.shape after unet {latentX.shape}')
+        #print(f'lantex.shape after unet {latentX.shape}')
         controlOutputs = self.controlnetOutput(latentX,contextY,timeSteps,controlHint)
-        print(f'controlOutputs.length {len(controlOutputs)}')
+        #print(f'controlOutputs.length {len(controlOutputs)}')
         latentX = self.controlnetUnet(latentX,contextY,timeSteps,controlOutputs)
         #predicted noise B,4,64,64
         latentX = self.final(latentX)

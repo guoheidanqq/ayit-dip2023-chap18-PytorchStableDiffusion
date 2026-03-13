@@ -15,7 +15,7 @@ class CannyEdgeDetection:
         cannyTensor = torch.from_numpy(cannyHW3)
         cannyTensor = cannyTensor.permute(2,0,1)
         cannyTensor =cannyTensor[None,:,:,:] 
-        cannyTensor = cannyTensor*2.0 - 1.0
+        #cannyTensor = cannyTensor*2.0 - 1.0
         # output range [-1,1]
         
         return cannyTensor
