@@ -35,7 +35,11 @@ class DiffusionProcessControlnet(nn.Module):
             misssingKeys, unexpectedKeys = self.controlnetOutput.load_state_dict(newControlWeightsDict,strict=False)
             #print(f'misssingKeys {misssingKeys}, unexpectedKeys {unexpectedKeys}')
             self.controlnetUnet = ControlnetSDUnet(self.unet,self.time_embedding).to(device)
-
+        else: 
+            device = next(self.parameters()).device            
+            self.controlnetOutput = ControlnetSD(self.unet).to(device)
+            self.controlnetUnet = ControlnetSDUnet(self.unet,self.time_embedding).to(device)
+            
 
 
     

@@ -151,10 +151,10 @@ class VaeEncoder(nn.Sequential):
         #print(f'inputs shape {x.shape}')
         if inputNoise is not None:
             noise = inputNoise  # 1 8 64 64
-            print(f'vae encoder input noise.shape {noise.shape}')
+            #print(f'vae encoder input noise.shape {noise.shape}')
         else:
             noise =  torch.randn(1,4,64,64).to(inputs.device)
-            print(f'vae encoder input noise is none  use zeros')
+            #print(f'vae encoder input noise is none  use zeros')
         #print(f'noise shape {noise.shape}')
         for name,layer in self._modules.items():            
             if isinstance(layer,nn.Conv2d) and layer.stride ==(2,2):

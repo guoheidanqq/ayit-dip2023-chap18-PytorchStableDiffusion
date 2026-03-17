@@ -20,10 +20,10 @@ class ControlnetUtils:
         for name,param in model.named_parameters():
             if 'controlnetOutput.'in name and param.requires_grad==True :
                 loraDict[name]=param
-                print(name,param.shape)
+                #print(name,param.shape)
                 
-        for name,param in loraDict.items():
-            print(name,param.shape)    
+        #for name,param in loraDict.items():
+        #    print(name,param.shape)    
         path = '/home/aistudio/models/training'
         tmpPath = os.path.join(path, 'controlnetCanny.ckpt.tmp')
         finalPath = os.path.join(path, 'controlnetCanny.ckpt')

@@ -134,7 +134,7 @@ class DdpmSamplerTorch:
         xt = x0Coeff * x0 + epsilonCoeff * noise
         return xt
     
-    def addNoiseBatchTrain(self,latentInputs:torch.Tensor,noise:torch.Tensor,timeStep:int):
+    def addNoiseBatchTrain(self,latentInputs:torch.Tensor,noise:torch.Tensor,timeStep:torch.Tensor):
         x0 = latentInputs
         B,C,H,W = x0.shape
         t = timeStep
@@ -145,17 +145,3 @@ class DdpmSamplerTorch:
         #noise =torch.randn(*x0.shape,generator = self.randomGenerator,dtype=torch.float32,device=x0.device)
         xt = x0Coeff * x0 + epsilonCoeff * noise
         return xt
-        
-        
-        
-         
-        
-        
-        
-    
-    
-    
-    
-        
-        
-        
