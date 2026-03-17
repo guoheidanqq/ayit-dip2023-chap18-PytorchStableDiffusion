@@ -111,7 +111,7 @@ class GenPipeControlnet:
                 Utils.showBatchImage(imageDecodedDirect)
                 
             else: 
-                print(f'input image is none,use random noise instead')
+                #print(f'input image is none,use random noise instead')
                 latentNoised = torch.randn(LatentShape,generator=randomGenerator,device=device)
             
             timesteps = sampler.getInferenceTimeSteps()    

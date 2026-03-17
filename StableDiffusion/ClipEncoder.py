@@ -26,7 +26,7 @@ class ClipEmbedding(nn.Module):
         # B 77
         x = self.token_embedding(x)
         # B,77,768
-        print(f'token embedding shape {x.shape}')
+        #print(f'token embedding shape {x.shape}')
         x = x + self.position_embedding
         # B,77,768
         return x 
