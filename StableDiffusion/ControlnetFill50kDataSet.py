@@ -37,6 +37,9 @@ class ControlnetFill50kDataSet(Dataset):
                 promptStr = data['prompt']
                 self.imageFileList.append(os.path.join(self.dataPath, fileName))
                 self.promptList.append(promptStr)
+        
+        self.imageFileList = self.imageFileList[:100]
+        self.promptList = self.promptList[:100]
 
     
     def loadImageBatch(self,filePath:str,device='cuda')->torch.Tensor:
