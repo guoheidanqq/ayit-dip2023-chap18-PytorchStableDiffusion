@@ -26,11 +26,11 @@ class DitConfig:
                  numImageTokens = 256,
                  projectionDim = 2048,
                  **keywordsArgs):
-        super(DitConfig,self).__init__()
+        super().__init__()
         #super().__init__()
-        self.numChannels = numChannels # 3
-        self.patchSize = patchSize #14
-        self.imageSize = imageSize #224
+        self.numChannels = numChannels # 4
+        self.patchSize = patchSize #4
+        self.imageSize = imageSize #64
         self.hiddenSize = embedDims  # 1152
         self.intermediateSize = hiddenDims# 4304
         self.numAttenionHeads = numAttentionHeads #16

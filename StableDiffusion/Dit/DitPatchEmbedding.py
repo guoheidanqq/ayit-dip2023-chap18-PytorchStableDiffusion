@@ -18,7 +18,7 @@ from .DitConfig import DitConfig
 
 class DitPatchEmbedding(nn.Module):
     def __init__(self,ditConfig:DitConfig):
-        super(DitPatchEmbedding,self).__init__()
+        super().__init__()
         #super().__init__()
         self.ditConfig=ditConfig
         self.imageSize = ditConfig.imageSize #64

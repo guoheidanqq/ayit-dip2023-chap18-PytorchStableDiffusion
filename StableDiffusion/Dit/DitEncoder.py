@@ -7,7 +7,7 @@ from typing import Any,Tuple,Optional
 class DitEncoder(nn.Module):
 
     def __init__(self, ditConfig:DitConfig):
-        super(DitEncoder,self).__init__()
+        super().__init__()
         #super().__init__()
         self.ditConfig = ditConfig
         self.numLayers = ditConfig.numHiddenLayers # 27

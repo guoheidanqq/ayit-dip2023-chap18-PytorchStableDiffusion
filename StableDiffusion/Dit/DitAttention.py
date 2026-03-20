@@ -5,7 +5,7 @@ from typing import Tuple,Optional
 
 class DitAttention(nn.Module):
     def __init__(self,ditConfig:DitConfig):
-        super(DitAttention, self).__init__()
+        super().__init__()
         self.ditConfig = ditConfig
         self.numHeads = ditConfig.numAttenionHeads #16
         self.hiddenSize = ditConfig.hiddenSize #1152

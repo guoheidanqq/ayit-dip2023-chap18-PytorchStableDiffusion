@@ -5,7 +5,7 @@ from .DitConfig import DitConfig
 
 class DitMlp(nn.Module):
     def __init__(self, config: DitConfig):
-        super(DitMlp,self).__init__()
+        super().__init__()
         self.config = config
         self.fc1 = nn.Linear(self.config.hiddenSize,self.config.intermediateSize,bias = True) # 1152->4304
         self.fc2 = nn.Linear(self.config.intermediateSize,self.config.hiddenSize,bias = True)  #4304->1152

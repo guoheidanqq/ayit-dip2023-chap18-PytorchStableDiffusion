@@ -7,7 +7,7 @@ from .DitMlp import DitMlp
 
 class DitEncoderLayer(nn.Module):
     def __init__(self,ditConfig:DitConfig):
-        super(DitEncoderLayer, self).__init__()
+        super().__init__()
         self.ditConfig = ditConfig
         self.hiddenSize = ditConfig.hiddenSize  #1152
         self.self_attn = DitAttention(ditConfig) # B 256 1152 

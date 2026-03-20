@@ -147,10 +147,12 @@ class VaeEncoder(nn.Sequential):
     
     
     def forward(self,inputs:torch.Tensor,inputNoise:Optional[torch.Tensor]=None)->torch.Tensor:
-        x = inputs    # B 8 64 64 
+        x = inputs    
+        # inputs: B 3 512 512
+        # outputs:B 4 64 64 
         #print(f'inputs shape {x.shape}')
         if inputNoise is not None:
-            noise = inputNoise  # 1 8 64 64
+            noise = inputNoise  # 1 4 64 64
             #print(f'vae encoder input noise.shape {noise.shape}')
         else:
             noise =  torch.randn(1,4,64,64).to(inputs.device)
