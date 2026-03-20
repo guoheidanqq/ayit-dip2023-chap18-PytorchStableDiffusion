@@ -15,7 +15,7 @@
 class DitConfig:
     def __init__(self,
                  numChannels = 4,
-                 patchSize = 4,
+                 patchSize = 8,
                  imageSize = 64,                 
                  embedDims = 1152,
                  hiddenDims = 4304,                 
