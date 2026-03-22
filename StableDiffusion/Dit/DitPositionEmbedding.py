@@ -6,7 +6,9 @@ class DitPositionEmbedding:
     def __init__(self, ditConfig:DitConfig):
         self.hiddenSize = ditConfig.hiddenSize
         self.imageSize = ditConfig.imageSize
-        self.hiddenSize = ditConfig.hiddenSize
+        self.patchSize = ditConfig.patchSize
+        self.gridSize = self.imageSize // self.patchSize
+        
     
     def get1DPositionEncoding(self,positionBatch:torch.Tensor,embedDims:int) -> torch.Tensor:
         p = positionBatch  # [M]
@@ -21,9 +23,9 @@ class DitPositionEmbedding:
         positionEmbed = torch.cat([sinPart,cosPart],dim=-1)
         return  positionEmbed
     
-    def get2DPositionEncoding(self,gridSize:torch.Tensor,embedDims:int) -> torch.Tensor:
-        gridH = torch.arange(gridSize,dtype = torch.float32)
-        gridW = torch.arange(gridSize,dtype = torch.float32)
+    def get2DPositionEncoding(self,embedDims:int) -> torch.Tensor:        
+        gridH = torch.arange(self.gridSize,dtype = torch.float32)
+        gridW = torch.arange(self.gridSize,dtype = torch.float32)
         grid = torch.meshgrid(gridW,gridH,indexing='xy')        
         grid = torch.stack(grid,dim=0)        
         grid = grid[:,None,:,:]

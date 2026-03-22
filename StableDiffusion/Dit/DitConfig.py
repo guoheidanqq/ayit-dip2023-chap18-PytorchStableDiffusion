@@ -28,6 +28,7 @@ class DitConfig:
                  **keywordsArgs):
         super().__init__()
         #super().__init__()
+        self.timeEmbeddingDimension = 256
         self.numChannels = numChannels # 4
         self.patchSize = patchSize #4
         self.imageSize = imageSize #64

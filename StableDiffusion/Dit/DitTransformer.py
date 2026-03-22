@@ -15,7 +15,7 @@ class DitTransformer(nn.Module):
         
     
     
-    def forward(self,imgBatch:torch.Tensor)-> torch.Tensor:
+    def forward(self,imgBatch:torch.Tensor,conditionClass,timeEmbeddingBatch)-> torch.Tensor:
         #  Batchsize 3 224  224
         inputImgBatch = imgBatch
         #hiddenStates = self.embeddings(inputImgBatch)
