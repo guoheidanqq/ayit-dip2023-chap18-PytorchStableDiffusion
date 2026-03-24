@@ -14,10 +14,10 @@ class DitEncoder(nn.Module):
         self.layers = nn.ModuleList([DitEncoderLayer(self.ditConfig) for i in range(self.numLayers)])
         
     
-    def forward(self,inputs:torch.Tensor)->torch.Tensor:
+    def forward(self,inputs:torch.Tensor,classEmbedBatch:torch.Tensor,timeEmbedBatch:torch.Tensor)->torch.Tensor:
         hiddenStates = inputs  
         # B 256 1152 
         for layer in self.layers:
-            hiddenStates = layer(hiddenStates)
+            hiddenStates = layer(hiddenStates,classEmbedBatch,timeEmbedBatch)
         # B 256 1152 -> B 256 1152    
         return hiddenStates

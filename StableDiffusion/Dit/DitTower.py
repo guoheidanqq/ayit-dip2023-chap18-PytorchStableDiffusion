@@ -6,6 +6,8 @@ from .DitPatchEmbedding import DitPatchEmbedding
 from .DitUnPatchEmbedding import DitUnPatchEmbedding
 from .DitTimeEmbedding import DitTimeEmbedding
 from .DitPositionEmbedding import DitPositionEmbedding
+from .DitClassEmbedding import DitClassEmbedding
+
 
 
 class DitTower(nn.Module):
@@ -20,22 +22,23 @@ class DitTower(nn.Module):
         self.unPatchEmbedding = DitUnPatchEmbedding(ditConfig)
         self.timeEmbedding = DitTimeEmbedding(ditConfig)
         self.positionEmbedding = DitPositionEmbedding(ditConfig)
+        self.classEmbedding = DitClassEmbedding(ditConfig)
         
 
     
     
-    def forward(self, imgBatch:torch.Tensor,timeSteps:torch.Tensor)->torch.Tensor:
+    def forward(self, imgBatch:torch.Tensor,classIdBatch:torch.Tensor,timeSteps:torch.Tensor)->torch.Tensor:
         #inputs:latent of vaeencoder  Batchsize 4 64 64
         #outputs:predicted noise  Batchsize 4 64 64
         device = imgBatch.device
         BatchSize,Channels,Height,Width = imgBatch.shape
         tiemEmbedBatch = self.timeEmbedding(timeSteps).to(device)
-        conditionClass = None
+        classEmbedBatch = self.classEmbedding(classIdBatch).to(device)        
         positionEmbedding = self.positionEmbedding.get2DPositionEncoding(self.hiddenSize).to(device)
         inputImgBatch = imgBatch
         hiddenStates = self.patchEmbedding(inputImgBatch)
         hiddenStates = hiddenStates + positionEmbedding
-        hiddenStates = self.vision_model(hiddenStates,conditionClass,tiemEmbedBatch)
+        hiddenStates = self.vision_model(hiddenStates,classEmbedBatch,tiemEmbedBatch)
         hiddenStates = self.unPatchEmbedding(hiddenStates) 
         
         return hiddenStates

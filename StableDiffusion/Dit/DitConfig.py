@@ -27,7 +27,8 @@ class DitConfig:
                  projectionDim = 2048,
                  **keywordsArgs):
         super().__init__()
-        #super().__init__()
+        self.classNum = 5
+        self.useCfg = True
         self.timeEmbeddingDimension = 256
         self.numChannels = numChannels # 4
         self.patchSize = patchSize #4
@@ -40,6 +41,7 @@ class DitConfig:
         self.attentionDropoutRate = attentionDropoutRate#0
         self.numImageTokens = numImageTokens #256
         self.projectionDim = projectionDim #2048
+        
     
     def show(self):
         print("numChannels : ", self.numChannels)
