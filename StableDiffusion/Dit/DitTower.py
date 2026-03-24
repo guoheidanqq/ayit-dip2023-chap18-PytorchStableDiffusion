@@ -32,13 +32,13 @@ class DitTower(nn.Module):
         #outputs:predicted noise  Batchsize 4 64 64
         device = imgBatch.device
         BatchSize,Channels,Height,Width = imgBatch.shape
-        tiemEmbedBatch = self.timeEmbedding(timeSteps).to(device)
+        timeEmbedBatch = self.timeEmbedding(timeSteps).to(device)
         classEmbedBatch = self.classEmbedding(classIdBatch).to(device)        
         positionEmbedding = self.positionEmbedding.get2DPositionEncoding(self.hiddenSize).to(device)
         inputImgBatch = imgBatch
         hiddenStates = self.patchEmbedding(inputImgBatch)
         hiddenStates = hiddenStates + positionEmbedding
-        hiddenStates = self.vision_model(hiddenStates,classEmbedBatch,tiemEmbedBatch)
-        hiddenStates = self.unPatchEmbedding(hiddenStates) 
+        hiddenStates = self.vision_model(hiddenStates,classEmbedBatch,timeEmbedBatch)
+        hiddenStates = self.unPatchEmbedding(hiddenStates,classEmbedBatch,timeEmbedBatch) 
         
         return hiddenStates

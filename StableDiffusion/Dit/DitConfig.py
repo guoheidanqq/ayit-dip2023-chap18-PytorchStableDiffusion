@@ -27,7 +27,8 @@ class DitConfig:
                  projectionDim = 2048,
                  **keywordsArgs):
         super().__init__()
-        self.classNum = 5
+        self.classNum = 1
+        self.classDropoutRate = 0.1
         self.useCfg = True
         self.timeEmbeddingDimension = 256
         self.numChannels = numChannels # 4
