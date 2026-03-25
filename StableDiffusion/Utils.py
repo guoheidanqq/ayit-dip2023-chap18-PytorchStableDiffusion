@@ -79,6 +79,8 @@ class Utils:
         return outputImage
     @staticmethod
     def showBatchImage(inputImageBatch:torch.tensor):
+        # vaedecoder image range [-1,1]
+        # vaeencoder image range [-1,1]
         decoderImg = inputImageBatch
         decoderImg = decoderImg.detach().cpu().numpy()
         decoderTest = decoderImg[0,:,:,:].transpose(1,2,0)
