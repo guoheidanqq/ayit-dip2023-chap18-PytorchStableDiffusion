@@ -27,15 +27,15 @@ class DitTower(nn.Module):
 
     
     
-    def forward(self, imgBatch:torch.Tensor,classIdBatch:torch.Tensor,timeSteps:torch.Tensor)->torch.Tensor:
+    def forward(self, latentInputBatch:torch.Tensor,classIdBatch:torch.Tensor,timeSteps:torch.Tensor)->torch.Tensor:
         #inputs:latent of vaeencoder  Batchsize 4 64 64
         #outputs:predicted noise  Batchsize 4 64 64
-        device = imgBatch.device
-        BatchSize,Channels,Height,Width = imgBatch.shape
+        device = latentInputBatch.device
+        BatchSize,Channels,Height,Width = latentInputBatch.shape
         timeEmbedBatch = self.timeEmbedding(timeSteps).to(device)
         classEmbedBatch = self.classEmbedding(classIdBatch).to(device)        
         positionEmbedding = self.positionEmbedding.get2DPositionEncoding(self.hiddenSize).to(device)
-        inputImgBatch = imgBatch
+        inputImgBatch = latentInputBatch
         hiddenStates = self.patchEmbedding(inputImgBatch)
         hiddenStates = hiddenStates + positionEmbedding
         hiddenStates = self.vision_model(hiddenStates,classEmbedBatch,timeEmbedBatch)
